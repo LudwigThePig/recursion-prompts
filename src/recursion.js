@@ -346,11 +346,10 @@ var fibonacci = function(n) {
   let result = [0];
   if (n <= 0) {
     return null;
+  } else  if (n === 1) {
+    return n;
   }
-  if (n === 1) {
-    return 1;
-  }
-  return [...result, fibonacci(n-1) + fibonacci(n-2)];
+  return [fibonacci(n-1) + fibonacci(n-2), ...result].reverse();
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -359,17 +358,42 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  if (n < 0) {
+    return null;
+  } else  if (n === 1) {
+    return 1;
+  }
+  return nthFibo(n-1) + nthFibo(n-2);
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(array) {
+  let result = [];
+  if (array.length === 0) {
+    return result;
+  }
+  result.push(array[0].toUpperCase());
+  return result.concat(capitalizeWords(array.slice(1)));
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
+  let result = [];
+  let word = array[0];
+  if (array.length === 0) {
+    return result;
+  }
+  result.push( //Which style fits the style guidelines for method chaining?
+    array[0]
+      .slice(0,1)
+      .toUpperCase()
+      .concat(
+        array[0].slice(1)
+    ));
+  return result.concat(capitalizeFirst(array.slice(1)));
 };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.
@@ -382,11 +406,27 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+  let result = 0;
+  for (let key in obj) {
+    if (typeof obj[key] === 'number' && obj[key] % 2 === 0) {
+      result += obj[key];
+    } else if (typeof obj[key] === 'object') {
+      result += nestedEvenSum(obj[key]);
+    }
+  }
+  return result;
 };
 
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+  if (array.length === 0) {
+    return array;
+  } else if (Array.isArray(array[0])) {
+    return flatten(array[0]).concat(flatten(array.slice(1)));
+  } else {
+    return [].concat(array[0], flatten(array.slice(1)));
+  }
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
