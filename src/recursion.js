@@ -378,7 +378,7 @@ var capitalizeWords = function(array) {
   return result.concat(capitalizeWords(array.slice(1)));
 };
 
-// 28. Given an array of strings, capitalize the first letter of each index.
+// 28. Given an array of strings, the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
   let result = [];
@@ -495,9 +495,11 @@ var minimizeZeroes = function(array) {
 var alternateSign = function(array) {
   if (array.length === 0) { 
     return array; 
-  } else if (array[0] < 0) {
+  } 
+  if (array[0] < 0) {
     array[0] = -array[0]; 
-  } else if (array[1] > 0) {
+  }
+  if (array[1] > 0) {
     array[1] = -array[1]; 
   }
   return [array[0], array[1]].concat(alternateSign(array.slice(2)));
@@ -507,7 +509,6 @@ var alternateSign = function(array) {
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
-  let result = '';
   const translate = {
     '0': 'zero',
     '1': 'one',
@@ -520,15 +521,26 @@ var numToText = function(str) {
     '8': 'eight',
     '9': 'nine'
   }
-  if (str.length === 0) {
-    return '';
+  if (typeof str === 'string') {
+    str = str.split(' ');
+  } else if (str.length === 0) {
+    return str;
   }
-  if (str[0] > '0' || str[0] < '9') {
-    result += translate[str[0]];
-  } else {
-    result += str[0];
+  if (translate.hasOwnProperty(str[0])) {
+    str[0] = translate[str[0]];
   }
-  return result += numToText(str.slice(1));
+  
+  return [str[0]].concat(numToText(str.slice(1))).join(" ");
+  // let result = '';
+  // if (str.length === 0) {
+  //   return '';
+  // }
+  // if (str[0] > '0' || str[0] < '9') {
+  //   result += translate[str[0]];
+  // } else {
+  //   result += str[0];
+  // }
+  // return result += numToText(str.slice(1));
 };
 
 // *** EXTRA CREDIT ***
