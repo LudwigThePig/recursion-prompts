@@ -529,18 +529,7 @@ var numToText = function(str) {
   if (translate.hasOwnProperty(str[0])) {
     str[0] = translate[str[0]];
   }
-  
   return [str[0]].concat(numToText(str.slice(1))).join(" ");
-  // let result = '';
-  // if (str.length === 0) {
-  //   return '';
-  // }
-  // if (str[0] > '0' || str[0] < '9') {
-  //   result += translate[str[0]];
-  // } else {
-  //   result += str[0];
-  // }
-  // return result += numToText(str.slice(1));
 };
 
 // *** EXTRA CREDIT ***
@@ -554,6 +543,20 @@ var tagCount = function(tag, node) {
 // binarySearch(array, 5) // 5
 // https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 var binarySearch = function(array, target, min, max) {
+  if (min === undefined && max === undefined) { //can I use default props for this?
+    min = 0;
+    max = array.length - 1;
+  }
+  let middleIndex = Math.floor(min + ((max - min) / 2));
+  if (max <= min && array[middleIndex] !== target) {
+    return null;
+  } else if (array[middleIndex] === target) {
+    return middleIndex;
+  } else if (array[middleIndex] < target) {
+    return binarySearch(array, target, middleIndex + 1, max); 
+  } else {
+    return binarySearch(array, target, min, middleIndex - 1);
+  }
 };
 
 // 39. Write a merge sort function.
